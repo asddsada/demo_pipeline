@@ -1,2 +1,6 @@
-demo_audios/
+audios_demo/demo/
+audios_demo/save/
 report_outputs/
+data/*/
+exp/*/
+mfcc/
