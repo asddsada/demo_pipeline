@@ -48,7 +48,8 @@ if [ $stage -le 0 ]; then
     for test in $test_set; do
         steps/make_mfcc.sh --write-utt2num-frames true --mfcc-config conf/mfcc.conf --nj $nj --cmd "$train_cmd" \
           data/${test} exp/make_mfcc $mfccdir
-        sid/compute_vad_decision.sh --nj $nj --cmd "$train_cmd" \
+        utils/fix_data_dir.sh data/${test}
+	steps/compute_vad_decision.sh --nj $nj --cmd "$train_cmd" \
           data/${test} exp/make_vad $vaddir
         utils/fix_data_dir.sh data/${test}
     done
