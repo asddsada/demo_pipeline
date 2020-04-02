@@ -36,7 +36,7 @@ while (<XVECTOR>) {
   chomp;
   my ($utt_id2, $tmp) = split;
   my ($spk2) = split($delimiter, $utt_id2);
-  system "echo $utt_id2 speaker: $spk2";
+  #system "echo $utt_id2 speaker: $spk2";
   open(SPK_VECTOR, "<", "${exp_dir}/spk_xvector.scp") or die "Could not open ${exp_dir}/spk_xvector.scp";
   while (<SPK_VECTOR>) {
       chomp;

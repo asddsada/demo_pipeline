@@ -1,5 +1,5 @@
-audios_demo/demo/
-audios_demo/save/
+audios_demo/
+audios_save/
 report_outputs/
 data/*/
 exp/*/
