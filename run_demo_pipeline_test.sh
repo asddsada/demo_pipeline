@@ -21,7 +21,22 @@ if [ $stage -le 1 ]; then
 fi
 
 if [ $stage -le 2 ]; then
-    ./inuse_script/eval_with_unlabel.sh --test-set test_combined --unlabel train_gowajee --nj 8 --make-unlabel 0 --centering-unlabel 0 --train-plda-unlabel 0 --eval-unlabel 1 --stage 0  || (echo "ERROR 2" > report_outputs/log  && exit 1);
+     if [ ! -d exp/xvectors_test_gowajee ]; then
+	./inuse_script/eval_with_unlabel.sh --test-set test_gowajee --unlabel train_gowajee --nj 8 --make-unlabel 0 --centering-unlabel 0 --train-plda-unlabel 0 --eval-unlabel 0 --stage 0  || (echo "ERROR 2" > report_outputs/log  && exit 1);
+     fi
+     if [ -d exp/xvectors_test_combined ]; then rm -rf exp/xvectors_test_combined;  fi
+     mkdir -p exp/xvectors_test_combined;
+     cp -r exp/xvectors_test_gowajee/* exp/xvectors_test_combined;
+     ./inuse_script/eval_with_unlabel.sh --test-set test_roc --unlabel train_gowajee --nj 1 --make-unlabel 0 --centering-unlabel 0 --train-plda-unlabel 0 --eval-unlabel 0 --stage 0  || (echo "ERROR 2" > report_outputs/log  && exit 1);
+    for x in num_utts.ark spk_xvector.scp xvector.scp; do
+    	cat exp/xvectors_test_roc/${x} >> exp/xvectors_test_combined/${x} 
+    done
+    
+    utt="$(head -1 exp/xvectors_test_combined/xvector.scp | cut -d " " -f 1)"
+    spk_len="$(head -1 exp/xvectors_test_combined/spk_xvector.scp | cut -d " " -f 1 |  tr -d '[:space:]' | wc -c)"
+    ./inuse_script/make_trials.pl -d ${utt:$(($spk_len)):1} exp/xvectors_test_combined data/test_combined/trials
+    
+    ./inuse_script/eval_with_unlabel.sh --test-set test_combined --unlabel train_gowajee --nj 1 --make-unlabel 0 --centering-unlabel 0 --train-plda-unlabel 0 --eval-unlabel 1 --stage 3  || (echo "ERROR 2" > report_outputs/log  && exit 1);
 fi
 
 if [ $stage -le 3 ]; then
