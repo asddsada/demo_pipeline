@@ -40,8 +40,9 @@ if [ $stage -le 2 ]; then
 fi
 
 if [ $stage -le 3 ]; then
-    grep "${target_spk} demo_${target_spk}" exp/scores_train_unlabel_train_gowajee/scores_adapt/test_combined_adapt.trials >  report_outputs/trials.txt || (echo "ERROR 3" > report_outputs/log  && exit 1);
-    echo `cat report_outputs/trials.txt`
+    grep "${target_spk} demo_${target_spk}" exp/scores_train_unlabel_train_gowajee/scores_adapt/test_combined_adapt.trials >  report_outputs/result.txt || (echo "ERROR 3" > report_outputs/log  && exit 1);
+    grep "demo_${target_spk}" exp/scores_train_unlabel_train_gowajee/scores_adapt/test_combined_adapt.trials >  report_outputs/trials.txt || (echo "ERROR 3" > report_outputs/log  && exit 1);
+    echo `cat report_outputs/result.txt`
 fi
 
 echo "SUCCESS" > report_outputs/log;
