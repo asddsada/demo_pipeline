@@ -2,7 +2,7 @@
 
 if [ "$#" -ne 2 ]; then
 echo "Usage: $0 <src-dir> <dst-dir>"
-echo "e.g.: $0 /home/baipo/kaldi_folder/kaldi/egs/th_senior/gowajee/test data/test_gowajee"
+echo "e.g.: $0 gowajee/test data/test_gowajee"
 exit 1
 fi
 
